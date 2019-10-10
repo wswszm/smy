@@ -1,10 +1,12 @@
-﻿using Magnum.FileSystem;
+﻿using OpenCvSharp;
 using rect7.Marks;
 using rect7.Shapes;
+using smy.cs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SQLite;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -13,6 +15,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WIA;
+using WindowsFormsApplication1;
+using Point = System.Drawing.Point;
 
 namespace smy
 {
@@ -135,9 +139,9 @@ namespace smy
             pictureBox1.Image = Image.FromFile("C:\\Users\\EDZ\\Desktop\\2.png");
             canvas.Shapes.Clear();
             canvas.Shapes.Add(new Box(false) { Rectangle = new Rectangle(35, 319, 515, 68), });
-            canvas.Shapes.Add(new Box(false) { Rectangle = new Rectangle(35, 394, 515, 65), });
+            //canvas.Shapes.Add(new Box(false) { Rectangle = new Rectangle(35, 394, 515, 65), });
             canvas.Shapes.Add(new Box(true) { Rectangle = new Rectangle(37, 459, 512, 94), });
-            canvas.Shapes.Add(new Box(true) { Rectangle = new Rectangle(39, 544, 509, 239), });
+            //canvas.Shapes.Add(new Box(true) { Rectangle = new Rectangle(39, 544, 509, 239), });
 
 
 
@@ -302,14 +306,86 @@ namespace smy
         private void Button1_Click(object sender, EventArgs e)
         {
             ShapeCollection shapes = canvas.Shapes;
-            for (int i = 0; i < shapes.Count; i++)
+            MessageBox.Show(checkCollection(shapes).ToString());
+            /*if (checkCollection(shapes))
             {
-                Shape s = shapes[i];
-                Console.WriteLine(s.Rectangle.X);
-                Console.WriteLine(s.Rectangle.Y);
-                Console.WriteLine(s.Rectangle.Width);
-                Console.WriteLine(s.Rectangle.Height);
+                *//*for (int i = 0; i < shapes.Count; i++)
+                {
+                    Shape s = shapes[i];
+                    Console.WriteLine(s.Rectangle.X);
+                    Console.WriteLine(s.Rectangle.Y);
+                    Console.WriteLine(s.Rectangle.Width);
+                    Console.WriteLine(s.Rectangle.Height);
+                }*//*
+            }*/
+        }
+        private Boolean checkCollection(ShapeCollection sc)
+        {
+            for (int i=0;i<sc.LongCount();i++)
+            {
+                Shape s = sc[i];
+                for (int j=0;j < sc.LongCount();j++)
+                {
+                    if (j == i)
+                    {
+                        continue;
+                    }
+                    Shape c = sc[j];
+                    Console.WriteLine("-------------------");
+                    Console.WriteLine(s.Rectangle.X);
+                    Console.WriteLine(s.Rectangle.Y);
+                    Console.WriteLine(s.Rectangle.X + s.Rectangle.Width);
+                    Console.WriteLine(s.Rectangle.Y + s.Rectangle.Height);
+                    Console.WriteLine(c.Rectangle.X);
+                    Console.WriteLine(c.Rectangle.Y);
+                    Console.WriteLine(c.Rectangle.X + c.Rectangle.Width);
+                    Console.WriteLine(c.Rectangle.Y + c.Rectangle.Height);
+                    Console.WriteLine("-------------------");
+                    if (s.Rectangle.X >= c.Rectangle.X 
+                        && s.Rectangle.Y >= c.Rectangle.Y
+                        && (s.Rectangle.X+s.Rectangle.Width) <= (c.Rectangle.X+c.Rectangle.Width)
+                        && (s.Rectangle.Y+s.Rectangle.Height) <= (c.Rectangle.Y+c.Rectangle.Height))
+                    {
+                        return false;
+                    }
+                }
             }
+            return true;
+        }
+
+        private void Button1_Click_1(object sender, EventArgs e)
+        {
+
+            
+            AnswerHandler handler = new AnswerHandler();
+            string imgFilePath = "C:\\Users\\EDZ\\Desktop\\7.png";
+            Mat srcImage = handler.imageHandle(imgFilePath);
+            Mat dst = new Mat();
+            AnswerHandler.rotate(srcImage, -90f, out dst);
+            Cv2.ImShow("Demo", dst);
+            //Console.WriteLine(srcImage.Width);
+            //Console.WriteLine(srcImage.Height);
+            //Mat imag_ch1 = new Mat(srcImage, new Rect(307, 229, 436, 180));
+            //Cv2.ImShow("Demo", imag_ch1);
+            //学号
+            string stuNo = handler.stuNoHandle(srcImage, 15);
+            //单选
+            int chooseY = 448;
+            int chooseCount = 55;
+            int chooseNum = 4;
+            string[] listenAnswer = handler.simpleChooseHandle(srcImage, chooseY, chooseCount, chooseNum);
+            for (int i = 0; i < listenAnswer.Length; i++)
+            {
+                string s = listenAnswer[i];
+                Console.WriteLine("num:" + (i + 1) + ",answer:" + s);
+            }
+
+            Console.WriteLine("xh:" + stuNo);
+        }
+
+        private void Button2_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 
