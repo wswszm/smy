@@ -33,8 +33,8 @@
             this.minButton = new System.Windows.Forms.Button();
             this.closeButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cutImage = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.submit = new System.Windows.Forms.Button();
             this.scan = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
@@ -42,7 +42,7 @@
             this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -70,9 +70,8 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.button2);
+            this.panel1.Controls.Add(this.cutImage);
             this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.submit);
             this.panel1.Controls.Add(this.scan);
             this.panel1.Controls.Add(this.minButton);
             this.panel1.Controls.Add(this.closeButton);
@@ -82,29 +81,29 @@
             this.panel1.TabIndex = 16;
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Start_MouseDown);
             // 
+            // cutImage
+            // 
+            this.cutImage.Location = new System.Drawing.Point(93, 13);
+            this.cutImage.Name = "cutImage";
+            this.cutImage.Size = new System.Drawing.Size(75, 23);
+            this.cutImage.TabIndex = 20;
+            this.cutImage.Text = "切图";
+            this.cutImage.UseVisualStyleBackColor = true;
+            this.cutImage.Click += new System.EventHandler(this.cutImage_Click);
+            // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(93, 11);
+            this.button1.Location = new System.Drawing.Point(12, 13);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 19;
-            this.button1.Text = "button1";
+            this.button1.Text = "重置";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1_Click_1);
             // 
-            // submit
-            // 
-            this.submit.Location = new System.Drawing.Point(174, 11);
-            this.submit.Name = "submit";
-            this.submit.Size = new System.Drawing.Size(75, 23);
-            this.submit.TabIndex = 18;
-            this.submit.Text = "上报";
-            this.submit.UseVisualStyleBackColor = true;
-            this.submit.Click += new System.EventHandler(this.Button1_Click);
-            // 
             // scan
             // 
-            this.scan.Location = new System.Drawing.Point(12, 11);
+            this.scan.Location = new System.Drawing.Point(174, 13);
             this.scan.Name = "scan";
             this.scan.Size = new System.Drawing.Size(75, 23);
             this.scan.TabIndex = 17;
@@ -148,16 +147,6 @@
             this.pictureBox3.TabIndex = 19;
             this.pictureBox3.TabStop = false;
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(255, 11);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 20;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.Button2_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -190,10 +179,10 @@
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.ComponentModel.BackgroundWorker backgroundWorker2;
-        private System.Windows.Forms.Button submit;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button cutImage;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     }
 }

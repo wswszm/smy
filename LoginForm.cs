@@ -20,15 +20,15 @@ namespace smy
 
         private void Login_Click(object sender, EventArgs e)
         {
-            Console.WriteLine(userName.Text);
-            Console.WriteLine(password.Text);
-            Console.WriteLine(rememberMe.Checked);
-            if (userName.Text == "admin" && password.Text == "admin")
-            {
+            //Console.WriteLine(userName.Text);
+            //Console.WriteLine(password.Text);
+            //Console.WriteLine(rememberMe.Checked);
+            //if (userName.Text == "admin" && password.Text == "admin")
+            //{
                 this.Hide();
                 MainForm mainForm = new MainForm();
                 mainForm.Show();
-            }
+            //}
         }
 
         

@@ -22,7 +22,8 @@ namespace smy
 {
     public partial class MainForm : Form
     {
-        
+        public string path = "";
+        public static int fileNum = 0;
         public MainForm()
         {
             InitializeComponent();
@@ -76,75 +77,68 @@ namespace smy
 
         private void Scan_Click(object sender, EventArgs e)
         {
-           /* ImageFile imageFile = null;
-            CommonDialogClass cdc = new CommonDialogClass();
-
-            try
+            if ("" == path || null == path) 
             {
-                imageFile = cdc.ShowAcquireImage(WIA.WiaDeviceType.ScannerDeviceType,
-                                                 WIA.WiaImageIntent.TextIntent,
-                                                 WIA.WiaImageBias.MaximizeQuality,
-                                                 "{00000000-0000-0000-0000-000000000000}",
-                                                 true,
-                                                 true,
-                                                 false);
+                MessageBox.Show("请先重置并切图");
+                return;
             }
-            catch (System.Runtime.InteropServices.COMException)
+            //pictureBox1.Image = Image.FromFile("D:\\A4.jpg");
+            AnswerHandler ah = new AnswerHandler();
+            /*Mat mat1 = ah.Subimage("D:\\123.png", 78, 510, 183, 157);
+            Mat mat2 = ah.Subimage("D:\\123.png", 261, 510, 183, 157);
+            Mat mat3 = ah.Subimage("D:\\123.png", 444, 510, 218, 157);
+            Mat mat4 = ah.Subimage("D:\\123.png", 661, 510, 218, 157);
+            Mat mat5 = ah.Subimage("D:\\123.png", 78, 666, 183, 157);
+            Mat mat6 = ah.Subimage("D:\\123.png", 261, 666, 218, 157);*/
+            //ah.imageHandle("D:\\12345.jpg");
+            
+            DirectoryInfo root = new DirectoryInfo(path);
+            FileInfo[] files = root.GetFiles();
+            scan.Text = "下一张";
+            if (fileNum >= files.Length) 
             {
-                imageFile = null;
+                MessageBox.Show("已到达最后一张了");
+                return;
             }
-            if (imageFile != null)
-            {
+            FileInfo fileInfo = files[fileNum];
+            Bitmap bt = new Bitmap(fileInfo.FullName);
+            Graphics g = Graphics.FromImage(bt);
+            g.DrawLine(new Pen(Color.Brown, 1), new Point(0, 14), new Point(bt.Width, 14));
+            g.DrawLine(new Pen(Color.Brown, 1), new Point(0, 44), new Point(bt.Width, 44));
+            g.DrawLine(new Pen(Color.Brown, 1), new Point(0, 74), new Point(bt.Width, 74));
+            g.DrawLine(new Pen(Color.Brown, 1), new Point(0, 104), new Point(bt.Width, 104));
+            g.DrawLine(new Pen(Color.Brown, 1), new Point(0, 134), new Point(bt.Width, 134));
+            g.DrawLine(new Pen(Color.Brown, 1), new Point(0, 164), new Point(bt.Width, 164));
+            /*      g.DrawLine(new Pen(Color.Brown, 1), new Point(47, 0), new Point(47, bt.Height));
+                  g.DrawLine(new Pen(Color.Brown, 1), new Point(86, 0), new Point(86, bt.Height));
+                  g.DrawLine(new Pen(Color.Brown, 1), new Point(125, 0), new Point(125, bt.Height));
+                  g.DrawLine(new Pen(Color.Brown, 1), new Point(164, 0), new Point(164, bt.Height));*/
+            g.DrawLine(new Pen(Color.Brown, 1), new Point(41, 0), new Point(41, bt.Height));
+            g.DrawLine(new Pen(Color.Brown, 1), new Point(82, 0), new Point(82, bt.Height));
+            g.DrawLine(new Pen(Color.Brown, 1), new Point(123, 0), new Point(123, bt.Height));
+            g.DrawLine(new Pen(Color.Brown, 1), new Point(164, 0), new Point(164, bt.Height));
+            g.DrawLine(new Pen(Color.Brown, 1), new Point(205, 0), new Point(205, bt.Height));
+            pictureBox1.Image = bt;
+            //bt.Dispose();
 
-                imageFile.SaveFile(@"c:\1.bmp");
-                using (FileStream stream = new FileStream(@"c:\1.bmp", FileMode.Open,
-                    FileAccess.Read, FileShare.Read))
-                {
-                    pictureBox1.Image = Image.FromStream(stream);
-                }
-                System.IO.File.Delete(@"c:\1.bmp");
-            }*/
-            /*DeviceManager manager = new DeviceManagerClass();
-            Device device = null;
-            foreach (DeviceInfo info in manager.DeviceInfos)
-            {
-                if (info.Type != WiaDeviceType.ScannerDeviceType) continue;
-                device = info.Connect();
-                break;
-            }
-
-            CommonDialogClass cdc = new WIA.CommonDialogClass();
-            Items items = cdc.ShowSelectItems(device, WiaImageIntent.UnspecifiedIntent, WiaImageBias.MaximizeQuality, false, true, false);
-            MessageBox.Show(items.Count.ToString());
-
-            foreach (Item item in items)
-            {
-
-                CommonDialogClass cdcTemp = new WIA.CommonDialogClass();
-                ImageFile imageFile = cdcTemp.ShowTransfer(item,
-                "{B96B3CAB-0728-11D3-9D7B-0000F81EF32E}",
-                true) as ImageFile;
-                if (imageFile != null)
-                {
-                    var buffer = imageFile.FileData.get_BinaryData() as byte[];
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        ms.Write(buffer, 0, buffer.Length);
-                        pictureBox1.Image = Image.FromStream(ms);
-                        pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-                    }
-                }
-
-            }*/
-            pictureBox1.Image = Image.FromFile("C:\\Users\\EDZ\\Desktop\\2.png");
-            canvas.Shapes.Clear();
+            /*Mat img = ah.imageHandle("D:\\outimage\\image_88_696_206_177.jpg");*/
+            /*ah.test(img, 47, 44);
+            ah.test(img, 47, 44);*/
+            Mat img = ah.imageHandle(fileInfo.FullName);
+            //Cv2.ImShow("test",img);
+            ah.simpleChooseHandleAfter(img, 5, 4);
+            fileNum++;
+            /* ah.CutImage(bit, 88 + 10, 696, 206, 177);
+             ah.CutImage(bit, 294 + 10, 696, 206, 177);
+             ah.CutImage(bit, 500 + 10, 696, 246, 177);
+             ah.CutImage(bit, 746 + 10, 696, 246, 177);
+             ah.CutImage(bit, 88 + 10, 873, 206, 177);*/
+            //ah.CutImage(bit, 294 + 10, 873, 246, 177);
+            /*canvas.Shapes.Clear();
             canvas.Shapes.Add(new Box(false) { Rectangle = new Rectangle(35, 319, 515, 68), });
             //canvas.Shapes.Add(new Box(false) { Rectangle = new Rectangle(35, 394, 515, 65), });
-            canvas.Shapes.Add(new Box(true) { Rectangle = new Rectangle(37, 459, 512, 94), });
+            canvas.Shapes.Add(new Box(true) { Rectangle = new Rectangle(37, 459, 512, 94), });*/
             //canvas.Shapes.Add(new Box(true) { Rectangle = new Rectangle(39, 544, 509, 239), });
-
-
-
         }
         /*private Point pStart, pEnd;//定义两个点（启点，终点）  
         private static bool drawing = false;//设置一个启动标志  
@@ -355,36 +349,88 @@ namespace smy
 
         private void Button1_Click_1(object sender, EventArgs e)
         {
-
             
-            AnswerHandler handler = new AnswerHandler();
-            string imgFilePath = "C:\\Users\\EDZ\\Desktop\\7.png";
-            Mat srcImage = handler.imageHandle(imgFilePath);
-            Mat dst = new Mat();
-            AnswerHandler.rotate(srcImage, -90f, out dst);
-            Cv2.ImShow("Demo", dst);
-            //Console.WriteLine(srcImage.Width);
-            //Console.WriteLine(srcImage.Height);
-            //Mat imag_ch1 = new Mat(srcImage, new Rect(307, 229, 436, 180));
-            //Cv2.ImShow("Demo", imag_ch1);
-            //学号
-            string stuNo = handler.stuNoHandle(srcImage, 15);
-            //单选
-            int chooseY = 448;
-            int chooseCount = 55;
-            int chooseNum = 4;
-            string[] listenAnswer = handler.simpleChooseHandle(srcImage, chooseY, chooseCount, chooseNum);
-            for (int i = 0; i < listenAnswer.Length; i++)
+            fileNum = 0;
+            scan.Text = "扫描";
+            try
             {
-                string s = listenAnswer[i];
-                Console.WriteLine("num:" + (i + 1) + ",answer:" + s);
+                pictureBox1.Image = null;
+                pictureBox1.Image.Dispose();
             }
+            catch (Exception ee) 
+            {
+                Console.WriteLine(ee.ToString());
+            }
+            
+            if ("" != path && null != path)
+            {
+                try
+                {
+                    DirectoryInfo root = new DirectoryInfo(path);
+                    FileInfo[] files = root.GetFiles();
+                    foreach (FileInfo f in files)
+                    {
+                        f.Delete();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
 
-            Console.WriteLine("xh:" + stuNo);
+            }
+            path = "";
         }
 
-        private void Button2_Click(object sender, EventArgs e)
+        private void cutImage_Click(object sender, EventArgs e)
         {
+            AnswerHandler ah = new AnswerHandler();
+            FolderBrowserDialog folderBrowserDialog1 = new FolderBrowserDialog();
+            
+            try
+            {
+                OpenFileDialog of = new OpenFileDialog();
+
+                if (of.ShowDialog() == DialogResult.OK)
+                {
+                    Bitmap bit = new Bitmap(of.FileName);
+                    if (this.folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+                    {
+                        string dictoryPath = this.folderBrowserDialog1.SelectedPath;
+                        DirectoryInfo root = new DirectoryInfo(dictoryPath);
+                        FileInfo[] files = root.GetFiles();
+                        if (files.Length > 0) 
+                        {
+                            MessageBox.Show("请选择一个空文件夹");
+                            return;
+                        }
+
+                        /*ah.CutImage(bit, 88, 696, 206, 177, dictoryPath);
+                        ah.CutImage(bit, 294, 696, 206, 177, dictoryPath);
+                        ah.CutImage(bit, 500, 696, 206, 177, dictoryPath);
+                        ah.CutImage(bit, 706, 696, 206, 177, dictoryPath);
+                        ah.CutImage(bit, 912, 696, 206, 177, dictoryPath);
+                        ah.CutImage(bit, 88, 873, 206, 177, dictoryPath);*/
+
+                        ah.CutImage(bit, 88, 696, 206, 177, dictoryPath);
+                        ah.CutImage(bit, 294, 696, 206, 177, dictoryPath);
+                        ah.CutImage(bit, 500, 696, 246, 177, dictoryPath);
+                        ah.CutImage(bit, 746, 696, 246, 177, dictoryPath);
+                        ah.CutImage(bit, 88, 873, 246, 177, dictoryPath);
+                        ah.CutImage(bit, 334, 873, 206, 177, dictoryPath);
+                        this.path = dictoryPath;
+                        MessageBox.Show("切图完成");
+                    }
+                }
+                
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            
             
         }
     }

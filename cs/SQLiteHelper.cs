@@ -5,6 +5,7 @@ using System.Text;
 using System.Configuration;
 using System.IO;
 using System.Data.SQLite;
+using Microsoft.Data.Sqlite;
 
 namespace WindowsFormsApplication1
 {
@@ -20,7 +21,7 @@ namespace WindowsFormsApplication1
         /// <param name="sql">SQL语句</param>
         /// <param name="pms">SQL参数，因为不知道会有多少个参数，所以用可变参数params</param>
         /// <returns>受影响的行数</returns>
-        public static int ExecuteNonQuery(string sql, params SQLiteParameter[] pms)
+        public static int ExecuteNonQuery(string sql, params SqliteParameter[] pms)
         {
             using (SQLiteConnection conn = new SQLiteConnection(conStr))
             {
