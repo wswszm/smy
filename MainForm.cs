@@ -433,6 +433,32 @@ namespace smy
             
             
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            /*以下代码只展示变换部分,其中ImageIn为输入图像,ImageOut为输出图像*/
+            //变换前的四点
+            Mat src = Cv2.ImRead("C:\\Users\\crystal\\Desktop\\bianhuan4.jpg", ImreadModes.Color);
+            Mat ImageOut = Cv2.ImRead("C:\\Users\\crystal\\Desktop\\end.jpg", ImreadModes.Color); ;
+            var srcPoints = new Point2f[] {
+                new Point2f(56, 108),
+                new Point2f(1146, 94),
+                new Point2f(68, 1631),
+                new Point2f(1157, 1615),
+            };
+            //变换后的四点
+            var dstPoints = new Point2f[] {
+                new Point2f(35, 65),
+                new Point2f(1175, 65),
+                new Point2f(35, 1659),
+                new Point2f(1175, 1659),
+            };
+            //根据变换前后四个点坐标,获取变换矩阵
+            Mat mm = Cv2.GetPerspectiveTransform(srcPoints, dstPoints);
+            //进行透视变换
+            Cv2.WarpPerspective(src, ImageOut, mm, src.Size());
+            Cv2.ImWrite("C:\\Users\\crystal\\Desktop\\end.jpg", ImageOut);
+        }
     }
 
 }

@@ -158,6 +158,7 @@
   <ItemGroup>
     <Compile Include="cs\AnswerHandler.cs" />
     <Compile Include="cs\HttpRequest.cs" />
+    <Compile Include="cs\ResolveJg.cs" />
     <Compile Include="cs\ScanClass.cs" />
     <Compile Include="cs\SQLiteHelper.cs" />
     <Compile Include="entity\test.cs" />

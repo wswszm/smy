@@ -322,18 +322,30 @@ namespace smy.cs
         }
         #endregion
 
-        public string[][] simpleChooseHandleAfter(Mat srcImage5, int questionNum, int chooseNum)
+        public Dictionary<String, String> simpleChooseHandleAfter(Mat srcImage5, int questionNum, int chooseNum)
         {
+            Cv2.ImShow("test", srcImage5);
             string[][] listenAnswer = new string[questionNum][];
+            //试题个数
             questionNum = 5;
+            //每题选项个数
             chooseNum = 4;
+            //每格宽度
             int geWidth = 39;
+            //每格高度
             int geHeight = 30;
+            //左上角第一个点的位置x
             int firstWidth = 47;
+            //左上角第一个点的位置y
             int firstHeight = 14;
+            //识别点最小宽度
             int sbWidth = 5;
+            //识别点最小高度
             int sbHeight = 5;
-            //Cv2.ImShow("test", srcImage5);
+            //开始识别题号
+            int l = 1;
+            //结果
+            Dictionary<String, String> dic = new Dictionary<String, String>();
             for (int i = 0; i < questionNum; i++)
             {
                 for (int j = 0; j < chooseNum; j++)
@@ -341,8 +353,6 @@ namespace smy.cs
                     int x = firstWidth + (j * geWidth);
                     int y = firstHeight + (i * geHeight);
                     Mat m = new Mat(srcImage5, new Rect(x, y, geWidth, geHeight));
-                    Console.WriteLine("x=" + x + ",y=" + y);
-                    //Cv2.ImShow("x:" + x + ",y:" + y, m);
                     HierarchyIndex[] hierarchly2;
                     Cv2.FindContours(m, out OpenCvSharp.Point[][] chapter1, out hierarchly2, RetrievalModes.Tree, ContourApproximationModes.ApproxSimple);
                     Boolean hasAnswer = false;
@@ -375,8 +385,6 @@ namespace smy.cs
 
                 }
             }
-            Dictionary<String,String> dic = new Dictionary<String, String>();
-            int l = 1;
             foreach (string[] answer in listenAnswer) 
             {
                 StringBuilder sb = new StringBuilder("");
@@ -415,11 +423,10 @@ namespace smy.cs
             {
                 Console.WriteLine("第"+ key + "题答案为："+dic[key]);
             }
-            //Console.WriteLine(listenAnswer);
-            return listenAnswer;
+            return dic;
         }
 
-        public void test(Mat srcImage5, int x, int y)
+        /*public void test(Mat srcImage5, int x, int y)
         {
             int geWidth = 39;
             int geHeight = 30;
@@ -441,15 +448,15 @@ namespace smy.cs
                     hasAnswer = true;
                 }
             }
-        }
+        }*/
 
-        public Mat Subimage(String filePath,int x,int y, int width, int height)
+        /*public Mat Subimage(String filePath,int x,int y, int width, int height)
         {
             Mat srcImage1 = new Mat(filePath, ImreadModes.Color);
             Mat imag_ch1 = srcImage1.SubMat(new OpenCvSharp.Rect(x, y, width, height));
             Cv2.ImWrite(@"D:\outimage\image_"+x+"_"+y+"_"+width+"_"+height+".png", imag_ch1);
             return imag_ch1;
-        }
+        }*/
         public Bitmap CutImage(Bitmap b, int startX, int startY, int iWidth, int iHeight, String outputPath)
         {
             if (b == null)
@@ -487,6 +494,7 @@ namespace smy.cs
             }
             return result;
         }
+
 
     }
 }
